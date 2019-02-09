@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './ToDo.css';
-import ToDoItem from './components/ToDoItem';
+import './Todo.css';
+import TodoItem from './components/TodoItem';
 import Logo from './assets/logo.svg';
 
 class ToDo extends Component {
@@ -20,7 +20,7 @@ class ToDo extends Component {
     };
   }
 
-  createNewToDoItem() {
+  createNewToDoItem = () => {
     this.setState(({ list, todo }) => ({
       list: [
         ...list,
@@ -30,28 +30,28 @@ class ToDo extends Component {
       ],
       todo: ''
     }));
-  }
+  };
 
-  handleKeyPress(e) {
+  handleKeyPress = e => {
     if (e.target.value !== '') {
       if (e.key === 'Enter') {
         this.createNewToDoItem();
       }
     }
-  }
+  };
 
-  handleInput(e) {
+  handleInput = e => {
     this.setState({
       todo: e.target.value
     });
-  }
+  };
 
   // this is now being emitted back to the parent from the child component
-  deleteItem(indexToDelete) {
+  deleteItem = indexToDelete => {
     this.setState(({ list }) => ({
       list: list.filter((toDo, index) => index !== indexToDelete)
     }));
-  }
+  };
 
   render() {
     return (
@@ -61,7 +61,7 @@ class ToDo extends Component {
         <section>
           {this.state.list.map((item, key) => {
             return (
-              <ToDoItem key={key} item={item.todo} deleteItem={this.deleteItem.bind(this, key)} />
+              <TodoItem key={key} item={item.todo} deleteItem={this.deleteItem.bind(this, key)} />
             );
           })}
         </section>
