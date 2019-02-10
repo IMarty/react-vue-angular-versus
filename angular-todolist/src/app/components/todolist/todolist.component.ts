@@ -1,5 +1,6 @@
 // Semantic imports
 import { Component, OnInit } from '@angular/core';
+import { TodoControllerService } from 'src/app/controllers/todo-controller.service';
 import { Todo } from '../../models/todo';
 
 // Component decorator
@@ -11,18 +12,10 @@ import { Todo } from '../../models/todo';
 
 // the class is where the datas and functions goes
 export class TodolistComponent implements OnInit {
-  // Datas goes there
-  list: Todo[] = [
-    {
-      id: 1,
-      item: 'clean the house'
-    },
-    {
-      id: 2,
-      item: 'buy milk'
-    }
-  ];
-  todo: Todo = { id: 0, item: '' };
+  todo: Todo = new Todo();
+  list: Todo[];
+  // constuctor
+  constructor(private todoService: TodoControllerService) {}
 
   // And also the functions
   // to ADD
@@ -32,24 +25,18 @@ export class TodolistComponent implements OnInit {
       alert('Please enter a todo!');
       return;
     }
-    // Mutate list data
-    this.list = [
-      ...this.list,
-      {
-        id: Math.max.apply(null, this.list.map(t => t.id)) + 1,
-        item: this.todo.item
-      }
-    ];
+    // Call the controller & refresh the view
+    this.list = this.todoService.addTodo(this.todo);
     // reset input variable
-    this.todo.item = '';
+    this.todo = new Todo();
   }
   // and REMOVE
   onDeleteItem(todo) {
-    // Mutate list data
-    this.list = this.list.filter(el => el !== todo);
+    // Call the controller & refresh the view
+    this.list = this.todoService.deleteTodo(todo);
   }
-  // constuctor
-  constructor() {}
   // function executed right after component is created
-  ngOnInit() {}
+  ngOnInit() {
+    this.list = this.todoService.getAllTodos();
+  }
 }

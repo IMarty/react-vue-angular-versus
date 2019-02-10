@@ -12,5 +12,5 @@ The "0 - dist" folder contains three subfolder for each built version.
 They have been deployed at :
 
 - <https://todolist-angular.netlify.com/>
-- <https://workshop-todolist-vue.netlify.com/>
 - <https://workshop-todolist-react.netlify.com/>
+- <https://workshop-todolist-vue.netlify.com/>
