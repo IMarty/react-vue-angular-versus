@@ -1,9 +1,16 @@
+//semantic imports
 import React, { Component } from 'react';
-import './Todo.css';
 import TodoItem from './components/TodoItem';
+
+// Access exernal images
 import Logo from './assets/logo.svg';
 
+// css rules in a separated file
+import './Todo.css';
+
+//Data, function and HTML content goes here
 class ToDo extends Component {
+  //Contructor's State store the data
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +31,8 @@ class ToDo extends Component {
       }
     };
   }
-
+  // Functions goes here
+  // to ADD
   createNewToDoItem = () => {
     // not empty
     if (this.state.todo.item === '') {
@@ -48,14 +56,22 @@ class ToDo extends Component {
     }));
   };
 
-  //handle tyhe enter key specifically
+  // and to DELETE
+  onDeleteItem = todo => {
+    this.setState(({ list }) => ({
+      list: list.filter(el => el !== todo)
+    }));
+  };
+
+  // BUT ALSO
+  // handle key press enter specifically
   handleKeyPress = e => {
     if (e.key === 'Enter') {
       this.createNewToDoItem();
     }
   };
 
-  //two way data binding
+  // and two way data binding
   handleInput = e => {
     const newTodo = {
       id: 0,
@@ -65,13 +81,7 @@ class ToDo extends Component {
     console.log(e.target.value, this.state.todo);
   };
 
-  // this is now being emitted back to the parent from the child component
-  deleteItem = todo => {
-    this.setState(({ list }) => ({
-      list: list.filter(el => el !== todo)
-    }));
-  };
-
+  //HTML/JSX Content goes there
   render() {
     return (
       <main>
@@ -80,11 +90,7 @@ class ToDo extends Component {
         <section>
           {this.state.list.map(todo => {
             return (
-              <TodoItem
-                key={todo.id}
-                item={todo.item}
-                deleteItem={this.deleteItem.bind(this, todo)}
-              />
+              <TodoItem key={todo.id} todo={todo} delete={this.onDeleteItem.bind(this, todo)} />
             );
           })}
         </section>

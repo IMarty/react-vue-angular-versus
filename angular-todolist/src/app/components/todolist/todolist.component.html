@@ -1,0 +1,20 @@
+<main id="app">
+  <!-- Access exernal images -->
+  <img src="./assets/logo.png" alt="Angular Logo" />
+  <h1>Angular Todo List</h1>
+  <section>
+    <!-- For loop over the list -->
+    <div *ngFor="let todoElement of list">
+      <app-todoitem
+        [todoAttribut]="todoElement"
+        (delete)="onDeleteItem(todoElement)"
+      ></app-todoitem>
+    </div>
+  </section>
+
+  <!-- Usually, we would create a form to use (ngSubmit) -->
+  <section>
+    <input type="text" [(ngModel)]="todo.item" (keyup.enter)="createNewToDoItem()" />
+    <button (click)="createNewToDoItem()">+</button>
+  </section>
+</main>

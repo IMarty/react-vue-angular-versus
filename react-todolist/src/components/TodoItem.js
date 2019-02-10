@@ -5,8 +5,8 @@ class ToDoItem extends Component {
   render() {
     return (
       <article>
-        <p>{this.props.item}</p>
-        <button onClick={this.props.deleteItem}>-</button>
+        <p>{this.props.todo.item}</p>
+        <button onClick={this.props.delete}>-</button>
       </article>
     );
   }
