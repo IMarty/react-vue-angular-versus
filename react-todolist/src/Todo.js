@@ -10,46 +10,65 @@ class ToDo extends Component {
       // this is where the data goes
       list: [
         {
-          todo: 'clean the house'
+          id: 1,
+          item: 'clean the house'
         },
         {
-          todo: 'buy milk'
+          id: 2,
+          item: 'buy milk'
         }
       ],
-      todo: ''
+      todo: {
+        id: 0,
+        item: ''
+      }
     };
   }
 
   createNewToDoItem = () => {
+    // not empty
+    if (this.state.todo.item === '') {
+      alert('Please enter a todo!');
+      return;
+    }
+    // We take the old state to set the new one
+    // new ID & Add to the list & reset input
     this.setState(({ list, todo }) => ({
       list: [
         ...list,
         {
-          todo
+          id: Math.max.apply(null, this.state.list.map(t => t.id)) + 1,
+          item: todo.item
         }
       ],
-      todo: ''
+      todo: {
+        id: 0,
+        item: ''
+      }
     }));
   };
 
+  //handle tyhe enter key specifically
   handleKeyPress = e => {
-    if (e.target.value !== '') {
-      if (e.key === 'Enter') {
-        this.createNewToDoItem();
-      }
+    if (e.key === 'Enter') {
+      this.createNewToDoItem();
     }
   };
 
+  //two way data binding
   handleInput = e => {
-    this.setState({
-      todo: e.target.value
-    });
+    const newTodo = {
+      id: 0,
+      item: e.target.value //updating value
+    };
+    this.setState({ todo: newTodo });
+    console.log(e.target.value, this.state.todo);
   };
 
   // this is now being emitted back to the parent from the child component
-  deleteItem = indexToDelete => {
+  deleteItem = todo => {
     this.setState(({ list }) => ({
-      list: list.filter((toDo, index) => index !== indexToDelete)
+      list: list.filter(el => el !== todo)
     }));
   };
 
@@ -59,16 +78,20 @@ class ToDo extends Component {
         <img src={Logo} alt="React logo" />
         <h1>React TodoList</h1>
         <section>
-          {this.state.list.map((item, key) => {
+          {this.state.list.map(todo => {
             return (
-              <TodoItem key={key} item={item.todo} deleteItem={this.deleteItem.bind(this, key)} />
+              <TodoItem
+                key={todo.id}
+                item={todo.item}
+                deleteItem={this.deleteItem.bind(this, todo)}
+              />
             );
           })}
         </section>
         <section>
           <input
             type="text"
-            value={this.state.todo}
+            value={this.state.todo.item}
             onChange={this.handleInput}
             onKeyPress={this.handleKeyPress}
           />

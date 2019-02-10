@@ -22,14 +22,19 @@ export class TodolistComponent implements OnInit {
 
   ngOnInit() {}
   createNewToDoItem() {
-    // validate todo
-    if (!this.todo) {
+    // not empty
+    if (this.todo.item === '') {
       alert('Please enter a todo!');
       return;
     }
-    // Add the todo to the list
-    const newId = Math.max.apply(null, this.list.map(t => t.id)) + 1;
-    this.list.push({ id: newId, item: this.todo.item });
+    this.list = [
+      ...this.list,
+      {
+        id: Math.max.apply(null, this.list.map(t => t.id)) + 1,
+        item: this.todo.item
+      }
+    ];
+    // reset input
     this.todo.item = '';
   }
   onDeleteItem(todo) {
